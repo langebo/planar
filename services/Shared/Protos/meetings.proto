@@ -1,0 +1,60 @@
+syntax = "proto3";
+option csharp_namespace = "Shared.Grpc.Meetings";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service MeetingsService {
+  rpc GetMeeting (GetMeetingQueryDto) returns (MeetingDto);
+  rpc GetMeetings (GetMeetingsQueryDto) returns (stream MeetingDto);
+  rpc CreateMeeting (CreateMeetingCommandDto) returns (MeetingDto);
+  rpc UpdateMeeting (UpdateMeetingCommandDto) returns (MeetingDto);
+  rpc DeleteMeeting (DeleteMeetingCommandDto) returns (google.protobuf.Empty);
+  rpc MeetingExists (MeetingExistsQueryDto) returns (MeetingExistsResponseDto);
+}
+
+message MeetingExistsResponseDto {
+  bool Exists = 1;
+}
+
+message MeetingExistsQueryDto {
+  string Id = 1;
+}
+
+message DeleteMeetingCommandDto {
+  string Id = 1;
+}
+
+message UpdateMeetingCommandDto {
+  string Id = 1;
+  string UserId = 2;
+  google.protobuf.Timestamp Start = 3;
+  google.protobuf.Timestamp End = 4;
+  string Name = 5;
+  string Descripton = 6;
+}
+
+message CreateMeetingCommandDto {
+  string UserId = 1;
+  google.protobuf.Timestamp Start = 2;
+  google.protobuf.Timestamp End = 3;
+  string Name = 4;
+  string Descripton = 5;
+}
+
+message GetMeetingsQueryDto {
+  string UserId = 1;
+}
+
+message GetMeetingQueryDto {
+  string Id = 1;
+}
+
+message MeetingDto {
+  string Id = 1;
+  string UserId = 2;
+  google.protobuf.Timestamp Start = 3;
+  google.protobuf.Timestamp End = 4;
+  string Name = 5;
+  string Descripton = 6;
+}

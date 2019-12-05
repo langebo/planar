@@ -1,0 +1,56 @@
+syntax = "proto3";
+option csharp_namespace = "Shared.Grpc.Users";
+
+import "google/protobuf/empty.proto";
+
+service UsersService {
+  rpc GetUser (GetUserQueryDto) returns (UserDto);
+  rpc GetUsers (GetUsersQueryDto) returns (stream UserDto);
+  rpc CreateUser (CreateUserCommandDto) returns (UserDto);
+  rpc UpdateUser (UpdateUserCommandDto) returns (UserDto);
+  rpc DeleteUser (DeleteUserCommandDto) returns (google.protobuf.Empty);
+  rpc UserExists (UserExistsQueryDto) returns (UserExistsResponseDto);
+}
+
+message UserExistsResponseDto {
+  bool Exists = 1;
+}
+
+message UserExistsQueryDto {
+  oneof Identifier {
+    string Id = 1;
+    string Identity = 2;
+  }
+}
+
+message DeleteUserCommandDto {
+  string Id = 1;
+}
+
+message UpdateUserCommandDto {
+  string Id = 1;
+  string Name = 2;
+  string Email = 3;
+  string Identity = 4;
+}
+
+message CreateUserCommandDto {
+  string Name = 1;
+  string Email = 2;
+  string Identity = 3;
+}
+
+message GetUsersQueryDto {
+  repeated string Ids = 1;
+}
+
+message GetUserQueryDto {
+  string Id = 1;
+}
+
+message UserDto {
+  string Id = 1;
+  string Name = 2;
+  string Email = 3;
+  string Identity = 4;
+}

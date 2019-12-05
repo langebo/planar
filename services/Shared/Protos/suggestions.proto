@@ -1,0 +1,60 @@
+syntax = "proto3";
+option csharp_namespace = "Shared.Grpc.Suggestions";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service SuggestionsService {
+  rpc GetSuggestion (GetSuggestionQueryDto) returns (SuggestionDto);
+  rpc GetSuggestions (GetSuggestionsQueryDto) returns (stream SuggestionDto);
+  rpc CreateSuggestion (CreateSuggestionCommandDto) returns (SuggestionDto);
+  rpc UpdateSuggestion (UpdateSuggestionCommandDto) returns (SuggestionDto);
+  rpc DeleteSuggestion (DeleteSuggestionCommandDto) returns (google.protobuf.Empty);
+  rpc SuggestionExists (SuggestionExistsQueryDto) returns (SuggestionExistsResponseDto);
+}
+
+message SuggestionExistsResponseDto {
+  bool Exists = 1;
+}
+
+message SuggestionExistsQueryDto {
+  string Id = 1;
+}
+
+message DeleteSuggestionCommandDto {
+  string Id = 1;
+}
+
+message UpdateSuggestionCommandDto {
+  string Id = 1;
+  string UserId = 2;
+  string MeetingId = 3;
+  google.protobuf.Timestamp Start = 4;
+  google.protobuf.Timestamp End = 5;
+}
+
+message CreateSuggestionCommandDto {
+  string UserId = 1;
+  string MeetingId = 2;
+  google.protobuf.Timestamp Start = 4;
+  google.protobuf.Timestamp End = 5;
+}
+
+message GetSuggestionsQueryDto {
+  oneof Identifier {
+    string UserId = 1;
+    string MeetingId = 2;
+  }
+}
+
+message GetSuggestionQueryDto {
+  string Id = 1;
+}
+
+message SuggestionDto {
+  string Id = 1;
+  string UserId = 2;
+  string MeetingId = 3;
+  google.protobuf.Timestamp Start = 4;
+  google.protobuf.Timestamp End = 5;
+}

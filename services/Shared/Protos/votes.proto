@@ -1,0 +1,53 @@
+syntax = "proto3";
+option csharp_namespace = "Shared.Grpc.Votes";
+
+import "google/protobuf/empty.proto";
+
+service VotesService {
+  rpc GetVote (GetVoteQueryDto) returns (VoteDto);
+  rpc GetVotes (GetVotesQueryDto) returns (stream VoteDto);
+  rpc CreateVote (CreateVoteCommandDto) returns (VoteDto);
+  rpc UpdateVote (UpdateVoteCommandDto) returns (VoteDto);
+  rpc DeleteVote (DeleteVoteCommandDto) returns (google.protobuf.Empty);
+  rpc VoteExists (VoteExistsQueryDto) returns (VoteExistsResponseDto);
+}
+
+message VoteExistsResponseDto {
+  bool Exists = 1;
+}
+
+message VoteExistsQueryDto {
+  string Id = 1;
+}
+
+message DeleteVoteCommandDto {
+  string Id = 1;
+}
+
+message UpdateVoteCommandDto {
+  string Id = 1;
+  string UserId = 2;
+  string SuggestionId = 3;
+}
+
+message CreateVoteCommandDto {
+  string UserId = 1;
+  string SuggestionId = 2;
+}
+
+message GetVotesQueryDto {
+  oneof Identifier {
+    string UserId = 1;
+    string SuggestionId = 2;
+  }
+}
+
+message GetVoteQueryDto {
+  string Id = 1;
+}
+
+message VoteDto {
+  string Id = 1;
+  string UserId = 2;
+  string SuggestionId = 3;
+}

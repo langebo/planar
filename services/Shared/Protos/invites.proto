@@ -1,0 +1,46 @@
+syntax = "proto3";
+option csharp_namespace = "Shared.Grpc.Invites";
+
+import "google/protobuf/empty.proto";
+
+service InvitesService {
+  rpc GetInvite (GetInviteQueryDto) returns (InviteDto);
+  rpc GetInvites (GetInvitesQueryDto) returns (stream InviteDto);
+  rpc CreateInvite (CreateInviteCommandDto) returns (InviteDto);
+  rpc DeleteInvite (DeleteInviteCommandDto) returns (google.protobuf.Empty);
+  rpc InviteExists (InviteExistsQueryDto) returns (InviteExistsResponseDto);
+}
+
+message InviteExistsResponseDto {
+  bool Exists = 1;
+}
+
+message InviteExistsQueryDto {
+  string Id = 1;
+}
+
+message DeleteInviteCommandDto {
+  string Id = 1;
+}
+
+message CreateInviteCommandDto {
+  string UserId = 1;
+  string MeetingId = 2;
+}
+
+message GetInvitesQueryDto {
+  oneof Identifier {
+    string UserId = 1;
+    string MeetingId = 2;
+  }
+}
+
+message GetInviteQueryDto {
+  string Id = 1;
+}
+
+message InviteDto {
+  string Id = 1;
+  string UserId = 2;
+  string MeetingId = 3;
+}
